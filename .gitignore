@@ -1,3 +1,19 @@
-/node_modules
+# Node modules
+node_modules/
+package-lock.json
+
+# Prisma files
+.prisma/
+prisma/dev.db
+prisma/migrations/
+
+# Build output
+dist/
+build/
+
+# Logs
+logs/
+*.log
+
+# Environment variables
 .env
-dist
