@@ -77,6 +77,14 @@ export const updateContact = asyncHandler( async (req: Request, res: Response) =
     if(!id) {
         throw new ApiError(400, "Id is required")
     }
+    const contact = await prisma.contact.findFirst({
+        where: {
+            id
+        }
+    })
+    if (!contact) {
+        throw new ApiError(404, "Contact not found")
+    }
     const updatedContact = await prisma.contact.update({
         where: {
             id
@@ -103,6 +111,14 @@ export const deleteContact = asyncHandler( async (req: Request, res: Response) =
     const id = req.params.id;
     if(!id) {
         throw new ApiError(400, "Id is required")
+    }
+    const contact = await prisma.contact.findFirst({
+        where: {
+            id
+        }
+    })
+    if (!contact) {
+        throw new ApiError(404, "Contact not found")
     }
     const deletedContact = await prisma.contact.delete({
         where: {

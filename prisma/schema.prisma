@@ -19,3 +19,10 @@ model Contact {
   email String
   phone String @unique
 }
+
+model User {
+  id        String    @id @default(uuid())
+  username  String    @unique
+  email     String    @unique
+  phone     String
+}
