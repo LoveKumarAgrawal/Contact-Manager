@@ -1,4 +1,4 @@
-# ContactManager
+# Contact-Manager
 
 A simple backend project built with Node.js and Express.js that provides a contact management system with user authentication and protected API routes.
 
