@@ -11,7 +11,12 @@ const prisma = new PrismaClient();
 
 export const getAllContacts = asyncHandler( async (req: Request, res: Response) => {
     try {
-        const allContacts = await prisma.contact.findMany({})
+        const allContacts = await prisma.contact.findMany({
+            where: {
+                // @ts-ignore
+                userId: req.user.id
+            }
+        })
         return res.status(200).json({
             message: "Get all contacts",
             contacts: allContacts
@@ -33,7 +38,9 @@ export const createContact = asyncHandler( async (req: Request, res: Response) =
         data: {
             name,
             email,
-            phone
+            phone,
+            // @ts-ignore
+            userId: req.user.id
         },
     })
     if(!newContact) {
@@ -85,6 +92,12 @@ export const updateContact = asyncHandler( async (req: Request, res: Response) =
     if (!contact) {
         throw new ApiError(404, "Contact not found")
     }
+
+    // @ts-ignore    
+    if(contact.userId.toString() !== req.user.id) {
+        throw new ApiError(403, "User don't have permission to update other user contacts")
+    }
+
     const updatedContact = await prisma.contact.update({
         where: {
             id
@@ -119,6 +132,10 @@ export const deleteContact = asyncHandler( async (req: Request, res: Response) =
     })
     if (!contact) {
         throw new ApiError(404, "Contact not found")
+    }
+    // @ts-ignore    
+    if(contact.userId.toString() !== req.user.id) {
+        throw new ApiError(403, "User don't have permission to delete other user contacts")
     }
     const deletedContact = await prisma.contact.delete({
         where: {

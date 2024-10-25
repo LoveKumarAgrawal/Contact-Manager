@@ -71,7 +71,7 @@ export const loginUser = asyncHandler( async (req: Request, res: Response) => {
             },
         }, 
         process.env.ACCESS_TOKEN_SECRET ?? "",
-        {expiresIn: "1m"}
+        {expiresIn: "15m"}
         )
         res.status(200).json({ accessToken })
     } else {
@@ -84,7 +84,6 @@ export const loginUser = asyncHandler( async (req: Request, res: Response) => {
 // @access private
 
 export const currentUser = asyncHandler( async (req: Request, res: Response) => {
-    res.json({
-        message: "Current User Information"
-    })
+    // @ts-ignore
+    res.json(req.user)
 } )

@@ -14,15 +14,18 @@ datasource db {
 }
 
 model Contact {
-  id    String    @id @default(uuid())
-  name  String
-  email String
-  phone String @unique
+  id          String    @id @default(uuid())
+  name        String
+  email       String
+  phone       String @unique
+  userId      String  // Foreign key to the user
+  user        User    @relation(fields: [userId], references: [id])
 }
 
 model User {
-  id        String    @id @default(uuid())
-  username  String    @unique
-  email     String    @unique
-  password     String
+  id            String    @id @default(uuid())
+  username      String    @unique
+  email         String    @unique
+  password      String
+  contacts      Contact[]
 }
